@@ -7,7 +7,9 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    tailwind(),
+    tailwind({
+      config: { path: './tailwind.config.mjs' },
+    }),
     mdx({
       components: {
         TheButton: '/src/components/TheButton.astro'
