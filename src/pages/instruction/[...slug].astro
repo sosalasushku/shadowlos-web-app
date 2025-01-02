@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from '../../layouts/Layout.astro';
+import InstructionStep from '../../components/instruction/InstructionStep.astro';
+import Badge from '../../components/Badge.astro';
+import { platforms, modes } from '../../data/platforms';
+import InstructionTabs from '../../components/instruction/InstructionTabs.astro';
+
+export async function getStaticPaths() {
+  const instructions = await getCollection('instructions');
+  
+  if (!instructions || instructions.length === 0) {
+    throw new Error('No instructions found');
+  }
+
+  console.log('Found instructions:', instructions.map(entry => ({
+    id: entry.id,
+    slug: entry.slug,
+    collection: entry.collection,
+    data: entry.data
+  })));
+
+  return instructions.map(entry => ({
+    params: { 
+      slug: `${entry.data.platform}/${entry.data.mode}` 
+    },
+    props: { entry }
+  }));
+}
+
+const props = await Astro.props;
+const { entry } = props;
+const { Content } = await entry.render();
+
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const platform = platforms.find(p => p.id === entry.data.platform);
+const mode = modes.find(m => m.id === entry.data.mode);
+
+if (!platform || !mode) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={entry.data.title}>
+  <main class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="flex gap-2 mb-8">
+      <Badge>{platform.name}</Badge>
+      <Badge>{mode.title}</Badge>
+    </div>
+
+    {entry.data.variants ? (
+      <InstructionTabs variants={entry.data.variants} />
+    ) : (
+      <div class="instruction-content">
+        {entry.data.steps?.map((step, index) => (
+          <InstructionStep 
+            index={index + 1} 
+            isLast={index === entry.data.steps.length - 1}
+            content={step.content}
+            buttons={step.buttons}
+          />
+        ))}
+      </div>
+    )}
+    <Content />
+  </main>
+</Layout> 

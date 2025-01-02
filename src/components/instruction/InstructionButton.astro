@@ -1,0 +1,11 @@
+---
+import TheButton from '../TheButton.astro';
+
+interface Props {
+  value: string;
+  url: string;
+}
+
+const { value, url } = Astro.props;
+---
+<TheButton href={url} class="mb-4">{value}</TheButton> 

@@ -1,0 +1,103 @@
+---
+import InstructionStep from './InstructionStep.astro';
+
+interface Props {
+  variants: Array<{
+    title: string;
+    subvariants?: Array<{
+      title: string;
+      steps: Array<{
+        content: string;
+        buttons?: Array<{
+          text: string;
+          type?: 'primary' | 'secondary';
+          href?: string;
+        }>;
+      }>;
+    }>;
+    steps?: Array<{
+      content: string;
+      buttons?: Array<{
+        text: string;
+        type?: 'primary' | 'secondary';
+        href?: string;
+      }>;
+    }>;
+  }>;
+}
+
+const { variants } = Astro.props;
+---
+
+<div class="instruction-tabs w-full">
+  <div class="flex mb-6 p-0.5 bg-bg-secondary rounded-lg">
+    {variants.map((variant, index) => (
+      <div
+        class="tab-button w-full text-center px-3 py-2 text-[16px] leading-[19px] rounded-lg"
+        data-index={index}
+      >
+        {variant.title}
+      </div>
+    ))}
+  </div>
+
+  <div class="variants-content">
+    {variants.map((variant, variantIndex) => (
+      <div 
+        class="variant-content" 
+        data-index={variantIndex}
+        style={variantIndex === 0 ? '' : 'display: none;'}
+      >
+        {variant.subvariants ? (
+          <div class="subvariants-container">
+            {variant.subvariants.map((subvariant, subIndex) => (
+              <div class="subvariant mb-8">
+                <h3 class="text-xl font-bold mb-4">{subvariant.title}</h3>
+                {subvariant.steps.map((step, stepIndex) => (
+                  <InstructionStep 
+                    index={stepIndex + 1} 
+                    isLast={stepIndex === subvariant.steps.length - 1}
+                    content={step.content}
+                    buttons={step.buttons}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (
+          variant.steps?.map((step, stepIndex) => (
+            <InstructionStep 
+              index={stepIndex + 1} 
+              isLast={stepIndex === variant.steps!.length - 1}
+              content={step.content}
+              buttons={step.buttons}
+            />
+          ))
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-button');
+  const contents = document.querySelectorAll('.variant-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const index = tab.getAttribute('data-index');
+      
+      // Активируем таб
+      tabs.forEach(t => t.classList.remove('bg-btn-bg'));
+      tab.classList.add('bg-btn-bg');
+      
+      // Показываем контент
+      contents.forEach(content => {
+        content.style.display = content.getAttribute('data-index') === index ? 'block' : 'none';
+      });
+    });
+  });
+
+  // Активируем первый таб по умолчанию
+  tabs[0]?.classList.add('bg-btn-bg');
+</script> 

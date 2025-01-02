@@ -1,0 +1,90 @@
+/* Base */
+:root {
+  --bg-primary: #282E33;    /* Ваш темный фон */
+  --bg-secondary: #313B43;  /* Ваш вторичный фон */
+  --text: #ffffff;         /* Ваш белый текст */
+  --text-muted: #94A3B8;   /* Приглушенный текст */
+  --btn-bg: #7B8799;       /* Ваш цвет кнопок */
+  --btn-bg-subtle: #7B879980; /* Ваш цвет кнопок */
+  --btn-text: #ffffff;     /* Ваш цвет текста кнопок */
+  --link-text: #a5b5ce;    /* Цвет ссылок */
+}
+
+/* Общие стили */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Типография */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Ссылки */
+a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    color: var(--link-text);
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+kbd {
+    background-color: var(--bg-secondary);
+    padding: 2px 5px !important;
+    margin: 0 2px !important;
+}
+
+/* Кнопки */
+button, .btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+button:active, .btn:active {
+  transform: scale(0.98);
+}
+
+/* Карточки и контейнеры */
+.card {
+  background-color: var(--bg-secondary);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* Утилиты */
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* Прозрачность для неактивных элементов */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Стили для kbd тегов в инструкциях */
+kbd {
+  background-color: var(--bg-secondary);
+  color: var(--text);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.9em;
+} 

@@ -1,0 +1,46 @@
+---
+import TheButton from '../TheButton.astro';
+
+interface Props {
+  index: number;
+  isLast: boolean;
+  content: string;
+  buttons?: Array<{
+    text: string;
+    type?: 'primary' | 'secondary';
+    href?: string;
+  }>;
+}
+
+const { index, isLast, content, buttons = [] } = Astro.props;
+---
+
+<div class="instruction-step relative pl-12 pb-8 last:pb-0">
+  <div 
+    class="absolute left-[15px] top-8 bottom-0 w-[2px] bg-btn-bg"
+    style={isLast ? 'display: none;' : ''}
+  ></div>
+  
+  <div class="absolute left-0 top-0 flex items-center justify-center w-8 h-8 rounded-full bg-btn-bg text-btn-text font-bold outline outline-4 outline-bg-primary text-[20px] leading-[24px]">
+    {index}
+  </div>
+  
+  <div class="pt-1 instruction-content">
+    <Fragment set:html={content} />
+    
+    {buttons.length > 0 && (
+      <div class="flex flex-col gap-2 mt-4">
+        {buttons.map(button => (
+          <TheButton
+            href={button.href}
+            class:list={[
+              button.type === 'secondary' && 'bg-opacity-50'
+            ]}
+          >
+            {button.text}
+          </TheButton>
+        ))}
+      </div>
+    )}
+  </div>
+</div> 

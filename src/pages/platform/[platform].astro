@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import ModeCard from '../../components/ModeCard.astro';
+import Badge from '../../components/Badge.astro';
+import Separator from '../../components/Separator.astro';
+import { platforms, modes } from '../../data/platforms';
+
+export function getStaticPaths() {
+  return platforms.map(({ id, name }) => ({
+    params: { platform: id },
+    props: { platformName: name }
+  }));
+}
+
+const { platform } = Astro.params;
+const platformData = platforms.find(p => p.id === platform);
+
+if (!platformData) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={`Настройка ${platformData.name}`}>
+  <main class="container mx-auto max-w-2xl">
+    <div class="header-section compact px-4 py-8">
+      <Header />
+      <div class="mt-4">
+        <Badge>
+          {platformData.name}
+        </Badge>
+      </div>
+    </div>
+    
+    <Separator />
+    
+    <div class="flex flex-col gap-4 px-4 py-8">
+      {modes.map(mode => (
+        <ModeCard
+          title={mode.title}
+          description={mode.description}
+          href={`/instruction/${platformData.id}/${mode.id}`}
+          disabled={!platformData.availableModes.includes(mode.id)}
+        />
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .header-section {
+    view-transition-name: header;
+    transform: scale(0.8);
+    transform-origin: top;
+  }
+</style> 

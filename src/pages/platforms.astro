@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import PlatformGrid from '../components/PlatformGrid.astro';
+import Separator from '../components/Separator.astro';
+---
+
+<Layout title="Выберите платформу">
+  <main class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="header-section">
+      <Header />
+    </div>
+    
+    <Separator />
+    
+    <div class="buttons-section">
+      <PlatformGrid />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .header-section {
+    view-transition-name: header;
+  }
+</style> 
