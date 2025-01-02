@@ -7,6 +7,7 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sosalasushku.github.io',
+  base: 'shadowlos-web-app',
   integrations: [
     tailwind({
       config: { path: './tailwind.config.mjs' },
